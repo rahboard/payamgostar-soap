@@ -7,490 +7,10 @@
   <link rel="icon" href="favicon-32.png" sizes="32x32" type="image/png" />
   <link rel="icon" href="favicon-192.png" sizes="192x192" type="image/png" />
   <link rel="apple-touch-icon" href="apple-touch-icon.png" sizes="180x180" />
+  <link rel="stylesheet" href="styles.css" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Vazirmatn:wght@400;500;600;700&display=swap" rel="stylesheet" />
-  <style>
-    :root {
-      --bg: #0f1419;
-      --bg-elevated: #1a222c;
-      --bg-input: #121820;
-      --border: #2a3544;
-      --border-focus: #e06a2c;
-      --text: #e8eef4;
-      --text-muted: #8b9aab;
-      --accent: #e06a2c;
-      --accent-hover: #ef7a3c;
-      --accent-soft: rgba(224, 106, 44, 0.15);
-      --danger: #c45c5c;
-      --danger-soft: rgba(196, 92, 92, 0.12);
-      --success: #e06a2c;
-      --success-soft: rgba(224, 106, 44, 0.12);
-      --warn: #c4a35c;
-      --radius: 10px;
-      --shadow: 0 12px 40px rgba(0, 0, 0, 0.35);
-      --font: "Vazirmatn", system-ui, sans-serif;
-      --mono: "JetBrains Mono", ui-monospace, monospace;
-    }
-
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-
-    body {
-      font-family: var(--font);
-      background:
-        radial-gradient(ellipse 80% 50% at 10% -10%, rgba(224, 106, 44, 0.22), transparent 55%),
-        radial-gradient(ellipse 60% 40% at 100% 0%, rgba(180, 80, 30, 0.18), transparent 50%),
-        var(--bg);
-      color: var(--text);
-      min-height: 100vh;
-      line-height: 1.6;
-    }
-
-    .wrap {
-      max-width: 1240px;
-      margin: 0 auto;
-      padding: 2rem 1.25rem 4rem;
-    }
-
-    .hidden { display: none !important; }
-
-    header {
-      margin-bottom: 2rem;
-      animation: fadeUp 0.5s ease both;
-    }
-
-    header h1 {
-      font-size: clamp(1.5rem, 3vw, 2rem);
-      font-weight: 700;
-      letter-spacing: -0.02em;
-    }
-
-    header p {
-      color: var(--text-muted);
-      margin-top: 0.35rem;
-      font-size: 0.95rem;
-    }
-
-    .grid {
-      display: grid;
-      gap: 1.25rem;
-    }
-
-    @media (min-width: 860px) {
-      .grid-main { grid-template-columns: 340px 1fr; align-items: start; }
-    }
-
-    .panel {
-      background: var(--bg-elevated);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 1.25rem 1.35rem;
-      box-shadow: var(--shadow);
-      animation: fadeUp 0.55s ease both;
-    }
-
-    .panel:nth-child(2) { animation-delay: 0.08s; }
-
-    .panel h2 {
-      font-size: 0.85rem;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-      color: var(--text-muted);
-      margin-bottom: 1rem;
-      padding-bottom: 0.65rem;
-      border-bottom: 1px solid var(--border);
-    }
-
-    label {
-      display: block;
-      font-size: 0.8rem;
-      font-weight: 500;
-      color: var(--text-muted);
-      margin-bottom: 0.35rem;
-    }
-
-    .field { margin-bottom: 0.9rem; }
-
-    input, textarea, select {
-      width: 100%;
-      font-family: var(--font);
-      font-size: 0.95rem;
-      color: var(--text);
-      background: var(--bg-input);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 0.65rem 0.8rem;
-      outline: none;
-      transition: border-color 0.15s, box-shadow 0.15s;
-    }
-
-    input:focus, textarea:focus, select:focus {
-      border-color: var(--border-focus);
-      box-shadow: 0 0 0 3px var(--accent-soft);
-    }
-
-    select {
-      appearance: none;
-      -webkit-appearance: none;
-      background-color: var(--bg-input);
-      background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%238b9aab' d='M1.2 1.4L6 6.2l4.8-4.8'/%3E%3C/svg%3E");
-      background-repeat: no-repeat;
-      background-position: left 0.15rem center;
-      background-size: 0.7rem;
-      padding-left: 1.15rem;
-      padding-right: 0.8rem;
-    }
-
-    textarea {
-      font-family: var(--mono);
-      font-size: 0.8rem;
-      min-height: 72px;
-      resize: vertical;
-      direction: ltr;
-      text-align: left;
-    }
-
-    .row-2 {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 0.75rem;
-    }
-
-    button {
-      font-family: var(--font);
-      font-size: 0.9rem;
-      font-weight: 600;
-      border: none;
-      border-radius: 8px;
-      padding: 0.7rem 1rem;
-      cursor: pointer;
-      transition: background 0.15s, transform 0.1s, opacity 0.15s;
-    }
-
-    button:active { transform: scale(0.98); }
-    button:disabled { opacity: 0.5; cursor: not-allowed; }
-
-    .btn-primary {
-      background: var(--accent);
-      color: #fff;
-      width: 100%;
-    }
-    .btn-primary:hover:not(:disabled) { background: var(--accent-hover); }
-
-    .btn-secondary {
-      background: transparent;
-      color: var(--text);
-      border: 1px solid var(--border);
-    }
-    .btn-secondary:hover:not(:disabled) {
-      border-color: var(--text-muted);
-      background: rgba(255,255,255,0.03);
-    }
-
-    .btn-row {
-      display: flex;
-      gap: 0.5rem;
-      margin-top: 0.25rem;
-    }
-    .btn-row button { flex: 1; }
-
-    .status {
-      display: flex;
-      align-items: flex-start;
-      gap: 0.5rem;
-      margin-top: 1rem;
-      padding: 0.7rem 0.85rem;
-      border-radius: 8px;
-      font-size: 0.85rem;
-      line-height: 1.55;
-    }
-
-    .status.idle {
-      background: rgba(255,255,255,0.03);
-      color: var(--text-muted);
-      border: 1px solid var(--border);
-    }
-    .status.ok {
-      background: var(--success-soft);
-      color: var(--success);
-      border: 1px solid rgba(224, 106, 44, 0.35);
-    }
-    .status.err {
-      background: var(--danger-soft);
-      color: #e08080;
-      border: 1px solid rgba(196, 92, 92, 0.35);
-    }
-
-    .dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: currentColor;
-      flex-shrink: 0;
-      margin-top: 0.45em;
-    }
-
-    .hint {
-      font-size: 0.75rem;
-      color: var(--text-muted);
-      margin-top: 0.75rem;
-      line-height: 1.5;
-    }
-
-    .hint code {
-      font-family: var(--mono);
-      font-size: 0.7rem;
-      background: var(--bg-input);
-      padding: 0.1rem 0.35rem;
-      border-radius: 4px;
-      direction: ltr;
-      display: inline-block;
-    }
-
-    .hint code {
-      font-family: var(--mono);
-      font-size: 0.7rem;
-      background: var(--bg-input);
-      padding: 0.1rem 0.35rem;
-      border-radius: 4px;
-      direction: ltr;
-      display: inline-block;
-    }
-
-    .entity-row {
-      margin-bottom: 0.85rem;
-    }
-
-    .entity-row .field { margin: 0; }
-
-    .method-tabs {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0;
-      width: 100%;
-      margin: 0 0 1rem;
-      border-bottom: 1px solid var(--border);
-    }
-
-    .method-tab {
-      width: auto;
-      padding: 0.55rem 0.95rem;
-      font-size: 0.85rem;
-      font-weight: 500;
-      background: transparent;
-      color: var(--text-muted);
-      border: none;
-      border-bottom: 2px solid transparent;
-      border-radius: 0;
-      margin-bottom: -1px;
-    }
-
-    .method-tab:hover:not(:disabled) {
-      color: var(--text);
-    }
-
-    .method-tab.active {
-      background: transparent;
-      color: var(--accent);
-      border-bottom-color: var(--accent);
-    }
-
-    .forms-toolbar {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.75rem;
-      align-items: end;
-      margin-bottom: 1rem;
-    }
-
-    .forms-toolbar .field {
-      flex: 1 1 160px;
-      margin: 0;
-    }
-
-    .forms-toolbar .btn-primary {
-      width: auto;
-      min-width: 110px;
-      height: 42px;
-    }
-
-    .results-meta {
-      color: var(--text-muted);
-      font-size: 0.8rem;
-      margin-bottom: 0.75rem;
-    }
-
-    .form-list {
-      display: flex;
-      flex-direction: column;
-      gap: 0.65rem;
-      max-height: 420px;
-      overflow-y: auto;
-      margin-bottom: 0.75rem;
-      padding-left: 2px;
-    }
-
-    .pager {
-      display: none;
-      align-items: center;
-      justify-content: space-between;
-      gap: 0.75rem;
-      flex-wrap: wrap;
-      padding: 0.55rem 0 0.25rem;
-      border-top: 1px solid var(--border);
-      margin-bottom: 0.75rem;
-      font-size: 0.8rem;
-      color: var(--text-muted);
-    }
-
-    .pager.visible { display: flex; }
-
-    .pager-controls {
-      display: flex;
-      align-items: center;
-      gap: 0.4rem;
-    }
-
-    .pager-controls button {
-      padding: 0.4rem 0.7rem;
-      min-width: 2.25rem;
-    }
-
-    .pager-controls button.active {
-      background: var(--accent);
-      color: #fff;
-      border-color: var(--accent);
-    }
-
-    .pager select {
-      width: auto;
-      min-width: 4.5rem;
-      padding: 0.35rem 0.5rem;
-      font-size: 0.8rem;
-    }
-
-    .pager-info {
-      font-family: var(--mono);
-      font-size: 0.75rem;
-      direction: ltr;
-    }
-
-    .form-item {
-      text-align: right;
-      background: var(--bg-input);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 0.75rem 0.9rem;
-      cursor: pointer;
-      transition: border-color 0.15s, background 0.15s;
-      width: 100%;
-      color: inherit;
-      font-family: inherit;
-    }
-
-    .form-item:hover, .form-item.active {
-      border-color: var(--accent);
-      background: var(--accent-soft);
-    }
-
-    .form-item .title {
-      font-weight: 600;
-      font-size: 0.95rem;
-    }
-
-    .form-item .meta {
-      font-size: 0.75rem;
-      color: var(--text-muted);
-      margin-top: 0.2rem;
-      font-family: var(--mono);
-      direction: ltr;
-      text-align: left;
-    }
-
-    .detail {
-      border-top: 1px solid var(--border);
-      padding-top: 1rem;
-      display: none;
-    }
-
-    .detail.visible { display: block; animation: fadeUp 0.35s ease both; }
-
-    .detail h3 {
-      font-size: 1.1rem;
-      margin-bottom: 0.75rem;
-    }
-
-    .kv {
-      display: grid;
-      grid-template-columns: 140px 1fr;
-      gap: 0.4rem 0.75rem;
-      font-size: 0.85rem;
-    }
-
-    .kv dt { color: var(--text-muted); }
-    .kv dd {
-      word-break: break-word;
-      font-family: var(--mono);
-      font-size: 0.78rem;
-      direction: ltr;
-      text-align: left;
-      white-space: pre-wrap;
-    }
-
-    .ext-table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 1rem;
-      font-size: 0.8rem;
-    }
-
-    .ext-table th, .ext-table td {
-      border: 1px solid var(--border);
-      padding: 0.45rem 0.6rem;
-      text-align: right;
-    }
-
-    .ext-table th {
-      background: var(--bg-input);
-      color: var(--text-muted);
-      font-weight: 500;
-    }
-
-    .ext-table td.value {
-      font-family: var(--mono);
-      font-size: 0.75rem;
-      direction: ltr;
-      text-align: left;
-    }
-
-    .empty {
-      color: var(--text-muted);
-      font-size: 0.9rem;
-      padding: 1.5rem 0;
-      text-align: center;
-    }
-
-    .spinner {
-      width: 14px;
-      height: 14px;
-      border: 2px solid currentColor;
-      border-top-color: transparent;
-      border-radius: 50%;
-      animation: spin 0.7s linear infinite;
-      display: inline-block;
-      flex-shrink: 0;
-      margin-top: 0.2em;
-    }
-
-    @keyframes spin { to { transform: rotate(360deg); } }
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(8px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    .locked .action-lock { opacity: 0.45; pointer-events: none; }
-  </style>
 </head>
 <body>
   <div class="wrap locked" id="app">
@@ -500,6 +20,7 @@
     </header>
 
     <div class="grid grid-main">
+      <div class="auth-col">
       <section class="panel">
         <h2>اتصال و احراز هویت</h2>
 
@@ -511,11 +32,11 @@
         <div class="row-2">
           <div class="field">
             <label for="username">نام کاربری</label>
-            <input id="username" type="text" autocomplete="username" placeholder="نام کاربری" />
+            <input id="username" type="text" dir="ltr" autocomplete="username" placeholder="username" />
           </div>
           <div class="field">
             <label for="password">رمز عبور</label>
-            <input id="password" type="password" autocomplete="current-password" placeholder="رمز عبور" />
+            <input id="password" type="password" dir="ltr" autocomplete="current-password" placeholder="password" />
           </div>
         </div>
 
@@ -525,9 +46,14 @@
 
         <div class="status idle" id="authStatus">
           <span class="dot"></span>
-          <span>برای اتصال به پیام‌گستر ابتدا باید وارد شوید. همه چیز محلی است و هیچ‌کجا ارسال یا ذخیره نمی‌شود.</span>
+          <span>برای اتصال به پیام‌گستر ابتدا باید وارد شوید.</span>
         </div>
       </section>
+      <aside class="privacy-alert" role="note">
+        <span class="privacy-alert-label">هشدار</span>
+        <p>آدرس CRM را حتماً درست وارد کنید. هیچ‌چیز اینجا ذخیره نمی‌شود، اما نام کاربری، رمز عبور و داده‌های حساب شما برای <strong>ارائه‌دهنده این دمو</strong> و <strong>همان آدرسی که وارد کرده‌اید</strong> قابل مشاهده است.</p>
+      </aside>
+      </div>
 
       <section class="panel data-panel">
         <div class="entity-row" id="entityField">
@@ -555,7 +81,7 @@
         </div>
 
         <div class="forms-toolbar hidden" id="findRow">
-          <div class="field" style="flex:2">
+          <div class="field field-grow">
             <label for="findId" id="findLabel">شناسه</label>
             <input id="findId" type="text" dir="ltr" placeholder="GUID" />
           </div>
@@ -588,7 +114,7 @@
         <div class="detail" id="detail">
           <h3 id="detailTitle"></h3>
           <dl class="kv" id="detailKv"></dl>
-          <table class="ext-table" id="extTable" style="display:none">
+          <table class="ext-table hidden" id="extTable">
             <thead>
               <tr><th>فیلد</th><th>کلید</th><th>مقدار</th></tr>
             </thead>

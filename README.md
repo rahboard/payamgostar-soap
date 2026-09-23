@@ -6,7 +6,7 @@ RTL browser UI for [PayamGostar](https://developer.payamgostar.com/soap-docs/) S
 
 ![PayamGostar SOAP UI](docs/ui.png)
 
-Credentials stay in the page. They are not written to `.env`, disk, or this repo. SOAP calls go same-origin through `POST /api/soap` to the **https** CRM URL you type.
+Enter the correct CRM address. Nothing is stored here, but SOAP account data is visible to the demo operator and to the host you typed. The gateway allows only PayamGostar SOAP paths on public DNS names, blocks private/link-local targets, and does not follow redirects. Self-signed TLS certificates (common on on-prem CRMs) are accepted.
 
 ## Usage
 
@@ -53,6 +53,6 @@ Optional `.env` keys: `PUBLISH_PORT`, `SOAP_TIMEOUT`. Do not put CRM URL or pass
 
 ## Layout
 
-- `index.html` / `app.js` — UI and SOAP XML
-- `server.py` — static files + SOAP gateway (`GET /health`, `POST /api/soap?base=&path=`)
+- `index.html` / `styles.css` / `app.js` — UI and SOAP XML
+- `server.py` — allowlisted static files + SOAP gateway (`GET /health`, `POST /api/soap?base=&path=`)
 - `docker-compose.yml` — `payamgostar-api` on port `8080`

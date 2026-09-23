@@ -3,7 +3,7 @@ FROM python:3.12-slim
 WORKDIR /app
 
 # App files only (secrets come from compose env_file)
-COPY server.py index.html app.js favicon-32.png favicon-192.png apple-touch-icon.png ./
+COPY server.py index.html app.js styles.css favicon-32.png favicon-192.png apple-touch-icon.png ./
 
 ENV HOST=0.0.0.0
 ENV PORT=8080

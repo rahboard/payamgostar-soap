@@ -376,7 +376,7 @@
   const $ = (id) => document.getElementById(id);
   const app = $("app");
   const authStatus = $("authStatus");
-  const IDLE_NOTICE = "برای اتصال به پیام‌گستر ابتدا باید وارد شوید. همه چیز محلی است و هیچ‌کجا ارسال یا ذخیره نمی‌شود.";
+  const IDLE_NOTICE = "برای اتصال به پیام‌گستر ابتدا باید وارد شوید.";
 
   let authenticated = false;
   let currentEntityId = "form";
@@ -478,9 +478,11 @@
   function setAuthStatus(kind, text, loading = false) {
     const message = (kind === "idle" && !loading && !text) ? IDLE_NOTICE : (text || IDLE_NOTICE);
     authStatus.className = `status ${kind}`;
-    authStatus.innerHTML = loading
-      ? `<span class="spinner"></span><span>${message}</span>`
-      : `<span class="dot"></span><span>${message}</span>`;
+    const mark = document.createElement("span");
+    mark.className = loading ? "spinner" : "dot";
+    const label = document.createElement("span");
+    label.textContent = message;
+    authStatus.replaceChildren(mark, label);
   }
 
   function setLocked(locked) {
@@ -588,9 +590,14 @@
   }
 
   function decodeXml(s) {
-    const t = document.createElement("textarea");
-    t.innerHTML = s;
-    return t.value;
+    return String(s)
+      .replace(/&lt;/g, "<")
+      .replace(/&gt;/g, ">")
+      .replace(/&quot;/g, '"')
+      .replace(/&apos;/g, "'")
+      .replace(/&#(\d+);/g, (_, n) => String.fromCharCode(Number(n)))
+      .replace(/&#x([0-9a-f]+);/gi, (_, n) => String.fromCharCode(parseInt(n, 16)))
+      .replace(/&amp;/g, "&");
   }
 
   function tagText(xml, tag) {
@@ -987,7 +994,7 @@
       const hint = /زمان|timeout|timed out|Abort/i.test(msg)
         ? ' کوئری را محدودتر کنید، مثلاً CreateDatePersian > "1405/01/01".'
         : "";
-      $("formList").innerHTML = `<div class="empty" style="color:#e08080">${escapeHtml(msg + hint)}</div>`;
+      $("formList").innerHTML = `<div class="empty err">${escapeHtml(msg + hint)}</div>`;
       $("resultsMeta").textContent = "";
     } finally {
       if (gen === loadGen) {
@@ -1064,7 +1071,7 @@
     } catch (err) {
       populateTypeSelect([]);
       $("typeField").classList.add("hidden");
-      $("formList").innerHTML = `<div class="empty" style="color:#e08080">${escapeHtml(err.message || String(err))}</div>`;
+      $("formList").innerHTML = `<div class="empty err">${escapeHtml(err.message || String(err))}</div>`;
     }
   }
 
@@ -1119,7 +1126,7 @@
     if (!cfg.findMethod) return;
     const idValue = $("findId").value.trim();
     if (!idValue) {
-      $("formList").innerHTML = `<div class="empty" style="color:#e08080">${escapeHtml(cfg.findPlaceholder || "شناسه")} را وارد کنید.</div>`;
+      $("formList").innerHTML = `<div class="empty err">${escapeHtml(cfg.findPlaceholder || "شناسه")} را وارد کنید.</div>`;
       return;
     }
     $("btnFind").disabled = true;
@@ -1133,7 +1140,7 @@
       if (records.length) showDetail(records[0], 0);
     } catch (err) {
       lastRecords = [];
-      $("formList").innerHTML = `<div class="empty" style="color:#e08080">${escapeHtml(err.message)}</div>`;
+      $("formList").innerHTML = `<div class="empty err">${escapeHtml(err.message)}</div>`;
       $("resultsMeta").textContent = "";
       paginationEnabled = false;
       updatePager();
@@ -1223,14 +1230,14 @@
     const table = $("extTable");
     const tbody = table.querySelector("tbody");
     if (rec.extended.length) {
-      table.style.display = "";
+      table.classList.remove("hidden");
       tbody.innerHTML = rec.extended.map((e) => `<tr>
             <td>${escapeHtml(e.name)}</td>
             <td class="value">${escapeHtml(e.userKey)}</td>
             <td class="value">${escapeHtml(e.value)}</td>
           </tr>`).join("");
     } else {
-      table.style.display = "none";
+      table.classList.add("hidden");
       tbody.innerHTML = "";
     }
     $("detail").classList.add("visible");
