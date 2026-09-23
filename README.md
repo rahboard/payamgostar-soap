@@ -2,6 +2,8 @@
 
 RTL browser UI for [PayamGostar](https://developer.payamgostar.com/soap-docs/) SOAP. Sign in with your CRM address, then search, list, and open records from the live instance.
 
+**Demo:** [payamgostar.rahboard.com](https://payamgostar.rahboard.com)
+
 ![PayamGostar SOAP UI](docs/ui.png)
 
 Credentials stay in the page. They are not written to `.env`, disk, or this repo. SOAP calls go same-origin through `POST /api/soap` to the **https** CRM URL you type.
