@@ -1,0 +1,13 @@
+services:
+  web:
+    build: .
+    container_name: payamgostar-api
+    ports:
+      - "${PUBLISH_PORT:-8080}:8080"
+    env_file:
+      - .env
+    environment:
+      HOST: "0.0.0.0"
+      PORT: "8080"
+      SOAP_TIMEOUT: ${SOAP_TIMEOUT:-45}
+    restart: unless-stopped
